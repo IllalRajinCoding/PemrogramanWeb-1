@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator sederhana</title>
+    <script>
+        function jumlahan9(){
+            let x = parseInt(document.getElementById("bill1").value);
+            let y = parseInt(document.getElementById("bill2").value);
+            let z = 0;
+
+            if (document.getElementById("tambah").checked){
+                z = x + y;
+            }
+            else if (document.getElementById("kurang").checked){
+                z = x - y;
+            }
+            else if (document.getElementById("kali").checked){
+                z = x * y;
+            }
+            else if (document.getElementById("bagi").checked){
+                z = x / y;
+            }
+
+            document.getElementById("hasil").innerHTML = z;
+        }
+    </script>
+</head>
+<body>
+    <h2>calculator sederhana</h2>
+    <form action="">
+        bilangan 1 : <input type="text" id="bill1">
+        <br>
+        bilangan 2 : <input type="text" id="bill2">
+        <br>
+        Pilih Operasi Aritmatematika :
+        <input type="radio" name="ht" id="tambah">+
+        <input type="radio" name="ht" id="kurang">-
+        <input type="radio" name="ht" id="bagi">/
+        <input type="radio" name="ht" id="kali">X
+        <br>
+        <input type="button" value="Hitung" onclick="jumlahan9()">
+        <br>
+        hasil penjumlahan : <span id="hasil"></span>
+    </form>
+</body>
+</html>
