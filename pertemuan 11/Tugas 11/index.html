@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error { color: red; }
+        .invalid { border: 1px solid red; }
+        .valid { border: 1px solid green; }
+    </style>
+</head>
+<body>
+    <FIeldset>
+        <legend>TIKET.ID</legend>
+    <h1>Form Tiket Destinasi Penerbangan</h1>
+    <form id="form">
+        <label>Nama Pelanggan:
+            <input type="text" id="nama" maxlength="30">
+            <span class="error" id="error-nama"></span>
+        </label><br><br>
+
+        <label>Email:
+            <input type="email" id="email">
+            <span class="error" id="error-email"></span>
+        </label><br><br>
+
+        <label>Jam Keberangkatan:
+            <input type="text" id="jam" placeholder="HH.MM">
+            <span class="error" id="error-jam"></span>
+        </label><br><br>
+
+        <label>Tujuan Keberangkatan:
+            <input type="text" id="tujuan">
+            <span class="error" id="error-tujuan"></span>
+        </label><br><br>
+
+        <label>Jumlah Tiket:
+            <input type="number" id="tiket" min="1" max="10">
+            <span class="error" id="error-tiket"></span>
+        </label><br><br>
+
+        <button type="button" onclick="validateForm()">Submit</button>
+    </form>
+
+    <h2>Pesanan Tiket:</h2>
+    <div id="output"></div>
+</FIeldset>
+    <script>
+        function validateForm() {
+            const fields = [
+                { id: 'nama', maxLength: 30, errorMsg: 'Nama wajib diisi, maksimal 30 karakter.' },
+                { id: 'email', regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, errorMsg: 'Format email tidak valid.' },
+                { id: 'jam', regex: /^([01]?\d|2[0-3])\.[0-5]\d$/, errorMsg: 'Format jam tidak valid (00.00 - 23.59).' },
+                { id: 'tujuan', errorMsg: 'Tujuan wajib diisi.' },
+                { id: 'tiket', min: 1, max: 10, errorMsg: 'Jumlah tiket harus antara 1-10.' }
+            ];
+
+            let isValid = true;
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+            document.querySelectorAll('input').forEach(el => el.classList.remove('invalid', 'valid'));
+
+            fields.forEach(field => {
+                const input = document.getElementById(field.id);
+                const value = input.value;
+
+                if ((field.maxLength && value.length > field.maxLength) ||
+                    (field.regex && !field.regex.test(value)) ||
+                    (field.min && (value < field.min || value > field.max))) {
+                    document.getElementById(`error-${field.id}`).textContent = field.errorMsg;
+                    input.classList.add('invalid');
+                    isValid = false;
+                } else {
+                    input.classList.add('valid');
+                }
+            });
+
+            if (isValid) {
+                const output = fields.map(field => `<p><strong>${field.id.charAt(0).toUpperCase() + field.id.slice(1)}:</strong> ${document.getElementById(field.id).value}</p>`).join('');
+                document.getElementById('output').innerHTML = output;
+            } else {
+                document.getElementById('output').innerHTML = '<p class="error">Form tidak valid. Mohon periksa kembali input Anda.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
